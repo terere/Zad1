@@ -1,17 +1,13 @@
 package com.example.przemyslaw.zad1.Controllers;
 
-import com.example.przemyslaw.zad1.ConnectionManager.ConnectionManager;
+import com.example.przemyslaw.zad1.AsyncTask.ResponseCodeAsyncTask;
 import com.example.przemyslaw.zad1.Interfaces.MainActivityInterface;
+import com.example.przemyslaw.zad1.Interfaces.ResponseCodeInterface;
 import com.example.przemyslaw.zad1.Utils.Const;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
-import java.io.IOException;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
-public class MainActivityController {
+public class MainActivityController implements ResponseCodeInterface{
 
     private MainActivityInterface mMainActivityInterface;
 
@@ -20,26 +16,12 @@ public class MainActivityController {
     }
 
     public void establishConnection() {
-        ConnectionManager.getmConnectionManager().getResponseCode(Const.MOBICA_URL, new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                //TODO implements correct error handling
-                mMainActivityInterface.showFailureToast();
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    mMainActivityInterface.showFailureToast();
-                    throw new IOException("Unexpected code " + response);
-                }
-                onWebResponse(response);
-            }
-        });
+        new ResponseCodeAsyncTask(this).execute(Const.MOBICA_URL);
     }
 
-    private void onWebResponse(Response response) {
-        switch (response.code()) {
+    @Override
+    public void responseCode(Integer responseCode) {
+        switch (responseCode) {
             case HTTP_OK:
                 mMainActivityInterface.showSuccessToast();
                 break;
@@ -48,6 +30,4 @@ public class MainActivityController {
                 break;
         }
     }
-
-
 }

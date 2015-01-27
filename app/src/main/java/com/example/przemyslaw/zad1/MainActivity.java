@@ -16,12 +16,6 @@ public class MainActivity extends ActionBarActivity implements MainActivityInter
 
     private MainActivityController mMainActivityController;
 
-    @OnClick(R.id.main_button)
-    public void connectWithWeb() {
-        Utils.showInProgressDialog(MainActivity.this);
-        mMainActivityController.establishConnection();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,26 +24,21 @@ public class MainActivity extends ActionBarActivity implements MainActivityInter
         mMainActivityController = new MainActivityController(this);
     }
 
+    @OnClick(R.id.main_button)
+    public void connectWithWeb() {
+        Utils.showInProgressDialog(MainActivity.this);
+        mMainActivityController.establishConnection();
+    }
 
     @Override
     public void showSuccessToast() {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Utils.hideInProgressDialog();
-                Toast.makeText(MainActivity.this, getString(R.string.success_toast_message), Toast.LENGTH_SHORT).show();
-            }
-        });
+        Utils.hideInProgressDialog();
+        Toast.makeText(MainActivity.this, getString(R.string.success_toast_message), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showFailureToast() {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Utils.hideInProgressDialog();
-                Toast.makeText(MainActivity.this, getString(R.string.failure_toast_message), Toast.LENGTH_SHORT).show();
-            }
-        });
+        Utils.hideInProgressDialog();
+        Toast.makeText(MainActivity.this, getString(R.string.failure_toast_message), Toast.LENGTH_SHORT).show();
     }
 }
