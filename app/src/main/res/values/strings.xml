@@ -4,5 +4,9 @@
     <string name="app_name">Zad1</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="main_button_label">TEST</string>
+    <string name="progress_dialog_title">Wait for Connection</string>
+    <string name="success_toast_message">SUCCESS</string>
+    <string name="failure_toast_message">FAILURE</string>
 
 </resources>
